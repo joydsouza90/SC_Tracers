@@ -15,5 +15,5 @@ Ray Tracing of a Diamond with Reflection and Refraction
 - C++ 
 	- Basic Traingles and Normals Working
 	- Triangle intersection
--Matlab
+- Matlab
 	- Raytracing with diffusive Serving
