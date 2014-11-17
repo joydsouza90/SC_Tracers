@@ -17,6 +17,6 @@ using namespace std;
 
 int main()
 {
-	Parser* p = new Parser("myDiamond.asc");
+	Parser* p = new Parser("diamond_trans.asc");
 	Diamond d = Diamond(p->parse());
 }

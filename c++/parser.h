@@ -38,11 +38,13 @@ public:
 					if(v.size()==0)
 						break;
 
-					Vertex v1,v2,v3;
+					Vertex v1,v2,v3,v4,v5;
 
 					v1 = Vertex (v[0],v[1],v[2]);
 					v2 = Vertex (v[3],v[4],v[5]);
 					v3 = Vertex (v[6],v[7],v[8]);
+					v4 = Vertex (v[9],v[10],v[11]);
+					v5 = Vertex (v[12],v[13],v[14]);
 
 					Triangle tri = Triangle(v1,v2,v3);
 					triangles.push_back(tri);
@@ -55,6 +57,7 @@ public:
 					v.clear();
 				  	continue;
 				}
+				cout<<token<<endl;
 	        	v.push_back(stof(token));
    			}
   		}
