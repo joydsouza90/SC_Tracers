@@ -1,3 +1,20 @@
+#ifndef TRIANGLE_CLASS
+#define TRIANGLE_CLASS
+
+#include <iostream>
+#include <string>
+#include <stdio.h>
+#include <sstream>
+#include <vector>
+#include <iterator>
+#include <algorithm>
+#include <assert.h>
+
+#include "color.h"
+#include "vertex.h"
+
+using namespace std;
+
 class Triangle
 {
 public:	
@@ -9,12 +26,29 @@ public:
 	Vertex norm;
 	float t; //output of intersection
 	bool inter; // same
+	Color surfaceColor;
+	Color emissionColor;
+	string token;		// T or D or L- transparent or diffusive surface or light source surface
 
-	Triangle(Vertex a,Vertex b,Vertex c)
+	Triangle()
 	{
-		v1=a;
-		v2=b;
-		v3=c;
+		v1 = Vertex(0,0,0);
+		v2 = Vertex(0,0,0);
+		v3 = Vertex(0,0,0);
+		token = "T";
+		surfaceColor = Color(0,0,0,1);
+		emissionColor =  Color(0,0,0,1);
+		computeNormal();
+	}
+
+	Triangle(Vertex a,Vertex b,Vertex c, string tld_token)
+	{
+		v1 = a;
+		v2 = b;
+		v3 = c;
+		token = tld_token;
+		surfaceColor = Color(0,0,0,1);
+		emissionColor =  Color(0,0,0,1);
 		computeNormal();
 	}
 
@@ -36,7 +70,8 @@ public:
 
 	void intersection(Vertex origin, Vertex dir)
 	{
-		float det=edge1.dot(norm);
+		Vertex pvec = dir.cross(edge2);
+		float det=edge1.dot(pvec);
 		if(det==0)
 		{
 			inter=false;
@@ -46,7 +81,7 @@ public:
 
 		float invDet=1/det;
 		Vertex tvec=origin.sub(v1);
-		float u=(tvec.mul(norm)).scale(invDet);
+		float u=(tvec.dot(pvec))*(invDet);
 
 		if(u<0 || u>1)
 		{
@@ -56,7 +91,7 @@ public:
 		}
 
 		Vertex qvec = tvec.cross(edge1);
-		float v = dir.mul(qvec).scale(invDet);
+		float v = dir.dot(qvec)*(invDet);
 
 		if (v<0||v+u>1)
         {
@@ -66,8 +101,16 @@ public:
         }
 
         inter = true;
-        t = (edge2.mul(qvec)).scale(invDet);
+        t = (edge2.dot(qvec))*(invDet);
 	}
 
-
+	void setColor(string type, Color color)
+	{
+		if ( type == "surface" )
+			surfaceColor = color;
+		else if ( type == "emission" )
+			emissionColor = color;
+	}
 };
+
+#endif //TRIANGLE_CLASS
