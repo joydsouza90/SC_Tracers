@@ -30,9 +30,9 @@ short	ctoi(float color)
 }
 
 typedef	struct {
-  float    red;	
-  float    green;
-  float    blue;
+	float    red;	
+	float    green;
+	float    blue;
 } pixel;
 
 class ImageBuffer{
@@ -92,23 +92,22 @@ public:
 
 	int flushDisplay2File(FILE* outfile)
 	{
-  int i, j;
-  FILE *fp = fopen("dia.ppm", "wb"); /* b - binary mode */
-  (void) fprintf(fp, "P6\n%d %d\n255\n", 256, 256);
-  for (j = 0; j < WIDTH; ++j)
-  {
-    for (i = 0; i < HEIGHT; ++i)
-    {
-		int pixelNum = i+j*width;
-      static unsigned char color[3];
-      color[0] = buf[pixelNum].red *255;  /* red */
-      color[1] = buf[pixelNum].green * 255;  /* green */
-      color[2] = buf[pixelNum].blue *255;  /* blue */
-      (void) fwrite(color, 1, 3, fp);
-    }
-  }
-  (void) fclose(fp);
-	return 1;
+		int i, j;
+		(void) fprintf(outfile, "P6\n%d %d\n255\n", 256, 256);
+		for (j = 0; j < WIDTH; ++j)
+		{
+			for (i = 0; i < HEIGHT; ++i)
+			{
+				int pixelNum = i+j*width;
+				static unsigned char color[3];
+				color[0] = buf[pixelNum].red *255;  /* red */
+				color[1] = buf[pixelNum].green * 255;  /* green */
+				color[2] = buf[pixelNum].blue *255;  /* blue */
+				(void) fwrite(color, 1, 3, outfile);
+			}
+		}
+		(void) fclose(outfile);
+		return 1;
 	}
 
 	int freeBuf()
@@ -121,9 +120,11 @@ public:
 int main()
 {
 	int	status = 0; 
+
+	int lights = 8; //no.of lights
+
 	ImageBuffer image(WIDTH,HEIGHT);
 	status |= image.initImageBuf();
-
 	Parser* p = new Parser("prism3.asc");
 	Diamond d = Diamond(p->parse());
 	int* count= new int(0);
@@ -140,16 +141,11 @@ int main()
 			dr.z = 1;
 			float n=normalize(dr);
 			dr.x = dr.x/normalize(dr);	dr.y = dr.y/normalize(dr);	dr.z = dr.z/normalize(dr);
-			if(y==0 && x==0)
-				int a=0;
+
 			Vertex v(0,0,0);
 			Color output_color;
+			output_color = raytrace(v,dr,d.tri,0,count,lights);
 
-			if(x==5 && y==6)
-				int yy=0;
-			output_color = raytrace(v,dr,d.tri,0,count);
-			if(output_color.r!=0)
-				int xx=0;
 
 
 			image.setImageBuf(x,y, (output_color.r), (output_color.g), (output_color.b));
