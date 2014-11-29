@@ -14,7 +14,7 @@ float normalize(Vertex v)
 	return sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
 }
 
-Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, float depth, int* count)
+Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, float depth, int* count,int lights)
 {
 	float t_min = 10000;
 	int triangle_index = 0;
@@ -37,8 +37,6 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
 	{
 		*count=*count+1;
 		tri1 = triangle_list[triangle_index];
-		if(tri1.token=="T")
-			int x=0;
 		if ( tri1.token == "L" )
 		{
 			output_color = tri1.surfaceColor;
@@ -64,7 +62,7 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
 					Vertex dr = inter_position.sub(l_position);
 					float t_light = normalize(dr);
 					dr.x = dr.x/t_light;  dr.y = dr.y/t_light;  dr.z = dr.z/t_light;			// dr = dr/norm(dr)
-					int T = 1;
+					float T = (float)1/lights; //normalizing so that we divide by number of light sources.
 					for ( int j = 0; j < triangle_list.size(); j++ )
 					{
                         if ( j != i && j != triangle_index )
@@ -89,8 +87,6 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
                     nhit.x = nhit.x/nhit_norm;     nhit.y = nhit.y/nhit_norm;   nhit.z = nhit.z/nhit_norm;             // nhit = nhit/norm(nhit) 
 					Vertex neg_nhit(-nhit.x,-nhit.y,-nhit.z);
                     output_color = output_color + tri1.surfaceColor.scaleColor(max(float(0),neg_nhit.dot(dr))).mul(tri2.emissionColor.scaleColor(T));		
-					if(output_color.r>1 || output_color.r<0 || output_color.g>1 || output_color.g<0 || output_color.b>1 || output_color.b<0)
-						int x=0;
 				}
 			}
 			return output_color;
@@ -133,8 +129,8 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
                     refract_dir.x = refract_dir.x/refract_norm;
                     refract_dir.y = refract_dir.y/refract_norm;
                     refract_dir.z = refract_dir.z/refract_norm;
-                    output_color = raytrace(inter_position,reflect_dir,triangle_list,depth+1,count).scaleColor(reflection) +
-                                   raytrace(inter_position,refract_dir,triangle_list,depth+1,count).scaleColor(transmission);
+                    output_color = raytrace(inter_position,reflect_dir,triangle_list,depth+1,count,lights).scaleColor(reflection) +
+                                   raytrace(inter_position,refract_dir,triangle_list,depth+1,count,lights).scaleColor(transmission);
 					return output_color;
                 }
                 else			// from inside to outside
@@ -151,7 +147,7 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
                     reflect_dir.z = reflect_dir.z/reflect_norm;
                     if (transmission == 0)			//total internal reflection
 					{
-                        output_color = raytrace(inter_position,reflect_dir,triangle_list,depth+1,count).scaleColor(reflection);
+                        output_color = raytrace(inter_position,reflect_dir,triangle_list,depth+1,count,lights).scaleColor(reflection);
 						return output_color;
 					}
                     else
@@ -161,16 +157,12 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
                         refract_dir.x = refract_dir.x/refract_norm;
                         refract_dir.y = refract_dir.y/refract_norm;
                         refract_dir.z = refract_dir.z/refract_norm;
-                        output_color = raytrace(inter_position,reflect_dir,triangle_list,depth+1,count).scaleColor(reflection) + raytrace(inter_position,refract_dir,triangle_list,depth+1,count).scaleColor(transmission);
+                        output_color = raytrace(inter_position,reflect_dir,triangle_list,depth+1,count,lights).scaleColor(reflection) + raytrace(inter_position,refract_dir,triangle_list,depth+1,count,lights).scaleColor(transmission);
 						return output_color;
 					}
                 }
 			}
         }
-		else
-		{
-			int x=0;
-		}
 	}
 	return Color(0,0,0,1);
 }
