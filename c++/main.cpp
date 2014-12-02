@@ -141,7 +141,6 @@ int main()
 			dr.z = 1;
 			float n=normalize(dr);
 			dr.x = dr.x/normalize(dr);	dr.y = dr.y/normalize(dr);	dr.z = dr.z/normalize(dr);
-
 			Vertex v(0,0,0);
 			Color output_color;
 			output_color = raytrace(v,dr,d.tri,0,count,lights);

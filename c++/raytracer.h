@@ -26,7 +26,7 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
 		tri1.intersection(origin, direction);
 		bool inter = tri1.inter;
 		float t = tri1.t;
-		if( (inter == true) && (t < t_min) )
+		if( (inter == true) && (t < t_min) && (t>0.001) )
 		{
 			t_min = t;
 			triangle_index = i;
@@ -105,7 +105,7 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
                 nhit.x = nhit.x/nhit_norm;    nhit.y = nhit.y/nhit_norm;  nhit.z = nhit.z/nhit_norm;             // nhit = nhit/norm(nhit)   
 
                 float n1 = 1.0;
-                float n2 = 2.4;
+                float n2 = 1.0;
 
                 float angle = nhit.dot(direction);
                 Vertex inter_position(0,0,0);
@@ -124,7 +124,7 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
                     reflect_dir.y = reflect_dir.y/reflect_norm;
                     reflect_dir.z = reflect_dir.z/reflect_norm;
 
-                    Vertex refract_dir = (direction.sub(nhit.scaleVertex(n2/n1))).sub(nhit.scaleVertex(direction.dot(nhit)));
+                    Vertex refract_dir = (direction.add((nhit.scaleVertex(direction.dot(nhit))).scaleVertex(n2/n1))).sub(nhit.scaleVertex(direction.dot(nhit)));
                     float refract_norm = normalize(refract_dir);
                     refract_dir.x = refract_dir.x/refract_norm;
                     refract_dir.y = refract_dir.y/refract_norm;
@@ -152,7 +152,7 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
 					}
                     else
                     {
-						Vertex refract_dir = (direction.add(nhit.scaleVertex(n1/n2))).sub(nhit.scaleVertex(direction.dot(nhit)));
+						Vertex refract_dir = (direction.add((nhit.scaleVertex(direction.dot(nhit))).scaleVertex(n1/n2))).sub(nhit.scaleVertex(direction.dot(nhit)));
                         float refract_norm = normalize(refract_dir);
                         refract_dir.x = refract_dir.x/refract_norm;
                         refract_dir.y = refract_dir.y/refract_norm;
