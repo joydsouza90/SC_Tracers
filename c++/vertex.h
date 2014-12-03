@@ -44,16 +44,17 @@ public:
 
 	Vertex* sub(Vertex* other)
 	{
-		Vertex* vv;
-		vv->x = x-other->x;
-		vv->y = y-other->y;
-		vv->z = z-other->z;
+		Vertex* vv = new Vertex();
+		vv->x = x - other->x;
+		vv->y = y - other->y;
+		vv->z = z - other->z;
 		return vv;
 	}
 
 	Vertex* add(Vertex* other)
 	{
-		Vertex* vv;
+		Vertex* vv = new Vertex();
+//		Vertex* vv;
 		vv->x = x+other->x;
 		vv->y = y+other->y;
 		vv->z = z+other->z;
@@ -62,7 +63,8 @@ public:
 
 	Vertex* mul(Vertex* other)
 	{
-		Vertex* vv;
+		Vertex* vv = new Vertex();
+//		Vertex* vv;
 		vv->x = x*other->x;
 		vv->y = y*other->y;
 		vv->z = z*other->z;
@@ -71,7 +73,8 @@ public:
 
 	Vertex* cross(Vertex* other)
 	{
-		Vertex* vv;
+		Vertex* vv = new Vertex();
+//		Vertex* vv;
 		vv->x = y * other->z - z*other->y;
 		vv->y = z * other->x - x*other->z;
 		vv->z = x * other->y - y*other->x;

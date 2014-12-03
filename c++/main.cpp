@@ -210,8 +210,11 @@ int main ( int argc, char *argv[] )
 
 	ImageBuffer image(WIDTH,HEIGHT);
 	status |= image.initImageBuf();
+	cout<<argv[1]<<endl;
 	Parser* p = new Parser(argv[1]);
+	cout<<"here"<<endl;
 	Diamond d = Diamond(p->parse());
+	cout<<"here"<<endl;
 	int* count= new int(0);
 	float angle_x = 25;
 	float Rx[3][3] =
