@@ -19,36 +19,45 @@ public:
 		g = green;
 		b = blue;
 	}
-	void operator=(Color &other_color)
+	void operator=(Color *other_color)
 	{
-		r = other_color.r;
-		g = other_color.g;
-		b = other_color.b;
+		r = other_color->r;
+		g = other_color->g;
+		b = other_color->b;
 	}
 
-	Color operator+(Color &other_color)
+	Color* operator+(Color *other_color)
 	{
-		Color c;
-		c.r = r + other_color.r;
-		c.g = g + other_color.g;
-		c.b = b + other_color.b;
+		Color* c;
+		c->r = r + other_color->r;
+		c->g = g + other_color->g;
+		c->b = b + other_color->b;
 
 		return c;
 	}
-	Color mul(Color &other)
+	Color* mul(Color *other)
 	{
-		Color c;
-		c.r = r*other.r;
-		c.g = g*other.g;
-		c.b = b*other.b;
+		Color* c;
+		c->r = r*other->r;
+		c->g = g*other->g;
+		c->b = b*other->b;
 		return c;
 	}
-	Color scaleColor(float s)
+
+	Color* add(Color *other)
 	{
-		Color c;
-		c.r = r * s;
-		c.g = g * s;
-		c.b = b * s;
+		Color* c;
+		c->r = r+other->r;
+		c->g = g+other->g;
+		c->b = b+other->b;
+		return c;
+	}
+	Color* scaleColor(float s)
+	{
+		Color* c;
+		c->r = r * s;
+		c->g = g * s;
+		c->b = b * s;
 		return c;
 	}
 	

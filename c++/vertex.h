@@ -22,65 +22,65 @@ public:
 		x = y = z = 0;
 	}
 
-	void operator-=(Vertex &other)
+	void operator-=(Vertex* other)
 	{
-		x -= other.x;
-		y -= other.y;
-		z -= other.z;
+		x -= other->x;
+		y -= other->y;
+		z -= other->z;
 	}
-	void operator+=(Vertex &other)
+	void operator+=(Vertex* other)
 	{
-		x += other.x;
-		y += other.y;
-		z += other.z;
-	}
-
-	void operator=(Vertex &other_color)
-	{
-		x = other_color.x;
-		y = other_color.y;
-		z = other_color.z;
+		x += other->x;
+		y += other->y;
+		z += other->z;
 	}
 
-	Vertex sub(Vertex other)
+	void operator=(Vertex* other_color)
 	{
-		Vertex vv;
-		vv.x = x-other.x;
-		vv.y = y-other.y;
-		vv.z = z-other.z;
+		x = other_color->x;
+		y = other_color->y;
+		z = other_color->z;
+	}
+
+	Vertex* sub(Vertex* other)
+	{
+		Vertex* vv;
+		vv->x = x-other->x;
+		vv->y = y-other->y;
+		vv->z = z-other->z;
 		return vv;
 	}
 
-	Vertex add(Vertex other)
+	Vertex* add(Vertex* other)
 	{
-		Vertex vv;
-		vv.x = x+other.x;
-		vv.y = y+other.y;
-		vv.z = z+other.z;
+		Vertex* vv;
+		vv->x = x+other->x;
+		vv->y = y+other->y;
+		vv->z = z+other->z;
 		return vv;
 	}
 
-	Vertex mul(Vertex other)
+	Vertex* mul(Vertex* other)
 	{
-		Vertex vv;
-		vv.x = x*other.x;
-		vv.y = y*other.y;
-		vv.z = z*other.z;
+		Vertex* vv;
+		vv->x = x*other->x;
+		vv->y = y*other->y;
+		vv->z = z*other->z;
 		return vv;
 	}
 
-	Vertex cross(Vertex other)
+	Vertex* cross(Vertex* other)
 	{
-		Vertex vv;
-		vv.x = y * other.z - z*other.y;
-		vv.y = z * other.x - x*other.z;
-		vv.z = x * other.y - y*other.x;
+		Vertex* vv;
+		vv->x = y * other->z - z*other->y;
+		vv->y = z * other->x - x*other->z;
+		vv->z = x * other->y - y*other->x;
 		return vv;
 	}
 
-	float dot(Vertex other)
+	float dot(Vertex* other)
 	{
-		return x*other.x+y*other.y+z*other.z;
+		return x*other->x+y*other->y+z*other->z;
 	}
 
 	float scale(float s)
@@ -88,12 +88,12 @@ public:
 		return x*s+y*s+z*s;
 	}
 
-	Vertex scaleVertex(float s)
+	Vertex* scaleVertex(float s)
 	{
-		Vertex vv;
-		vv.x = x * s;
-		vv.y = y * s;
-		vv.z = z * s;
+		Vertex* vv;
+		vv->x = x * s;
+		vv->y = y * s;
+		vv->z = z * s;
 		return vv;
 	}
 
