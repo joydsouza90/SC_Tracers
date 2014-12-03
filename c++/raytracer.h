@@ -1,7 +1,6 @@
 #include "triangle.h"
 #include "vertex.h"
 #include "math.h"
-#include "fresnel.h"
 
 //#define Normalize255(x) min( max(short(0),x), short(4095) )>>4 
 //
@@ -17,7 +16,7 @@ float normalize(Vertex v)
 Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, float depth, int* count,int lights)
 {
 	float t_min = 10000;
-	int triangle_index = 0;
+	int triangle_index = -1;
 	Color output_color(0,0,0,1);
 	Triangle tri1, tri2;
 	for( int i = 0; i < triangle_list.size(); i++ )
@@ -33,7 +32,7 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
 		}
 	}
 
-	if( triangle_index != 0)			// if some triangle is found intersected by the ray
+	if( triangle_index != -1)			// if some triangle is found intersected by the ray
 	{
 		*count=*count+1;
 		tri1 = triangle_list[triangle_index];
@@ -105,7 +104,7 @@ Color raytrace(Vertex origin, Vertex direction, vector<Triangle> triangle_list, 
                 nhit.x = nhit.x/nhit_norm;    nhit.y = nhit.y/nhit_norm;  nhit.z = nhit.z/nhit_norm;             // nhit = nhit/norm(nhit)   
 
                 float n1 = 1.0;
-                float n2 = 1.0;
+                float n2 = 2.4;
 
                 float angle = nhit.dot(direction);
                 Vertex inter_position(0,0,0);
