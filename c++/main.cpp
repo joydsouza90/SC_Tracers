@@ -406,10 +406,10 @@ end
 				dr_origin->x=dr->x*9-0.1;
 				dr_origin->y=dr->y*9+3;
 				dr_origin->z=dr->z*9;
+
 				output_color_r = raytrace(dr_origin,dr,d.tri,0,count,count_light,2.40,light_list);
 				output_color_g = raytrace(dr_origin,dr,d.tri,0,count,count_light,2.43,light_list);
 				output_color_b = raytrace(dr_origin,dr,d.tri,0,count,count_light,2.46,light_list);
-
 				image.addImageBuf(x,y, (output_color_r->r)*AAFilter[aa][2], (output_color_g->g)*AAFilter[aa][2], (output_color_b->b)*AAFilter[aa][2]);
 		
 			}

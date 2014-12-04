@@ -36,6 +36,7 @@ Color* raytrace(Vertex* origin, Vertex* direction, vector<Triangle*> triangle_li
 	{
 		*count=*count+1;
 		tri1 = triangle_list[triangle_index];
+//		cout<< tri1->token << " diff: "<<tri1->token.compare("D")<<endl;
 		if ( tri1->token == "L" )
 		{
 			output_color = tri1->surfaceColor;
@@ -47,6 +48,7 @@ Color* raytrace(Vertex* origin, Vertex* direction, vector<Triangle*> triangle_li
 		else  if(tri1->token == "D")
 			{ 
 				// it is a diffusive surface
+			cout<<"inter with d"<<endl;
 			for( int i = 0; i < lights; i++ )
 			{
 					Vertex* l_position = new Vertex(0,0,0);

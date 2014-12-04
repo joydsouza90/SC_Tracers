@@ -41,7 +41,7 @@ public:
 				cout<<"tri skip"<<endl;
 	        		continue;
 			}
-				if(token.compare("T")==1 || token.compare("D")==1)
+				if(token=="T" || token=="D")
 				{
 					cout<<"T or D enter"<<endl;
 					assert(v.size() == 15 || v.size()==0);
@@ -69,6 +69,7 @@ public:
 					cout<<"here"<<endl;
 					triangles.push_back(tri);
 					v.clear();
+					cout<<tri->token<<" is token"<<endl;
 					cout<<"done"<<endl;
 				
 				  	continue;
