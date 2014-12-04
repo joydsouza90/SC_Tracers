@@ -28,7 +28,7 @@ public:
 
 	Color* operator+(Color *other_color)
 	{
-		Color* c;
+		Color* c = new Color();
 		c->r = r + other_color->r;
 		c->g = g + other_color->g;
 		c->b = b + other_color->b;
@@ -37,7 +37,9 @@ public:
 	}
 	Color* mul(Color *other)
 	{
-		Color* c;
+		Color* c = new Color();
+
+		//Color* c;
 		c->r = r*other->r;
 		c->g = g*other->g;
 		c->b = b*other->b;
@@ -46,7 +48,9 @@ public:
 
 	Color* add(Color *other)
 	{
-		Color* c;
+		Color* c = new Color();
+
+		//lor* c;
 		c->r = r+other->r;
 		c->g = g+other->g;
 		c->b = b+other->b;
@@ -54,7 +58,8 @@ public:
 	}
 	Color* scaleColor(float s)
 	{
-		Color* c;
+		Color* c = new Color();
+		
 		c->r = r * s;
 		c->g = g * s;
 		c->b = b * s;

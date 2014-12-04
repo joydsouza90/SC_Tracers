@@ -49,6 +49,8 @@ public:
 		token = tld_token;
 		surfaceColor = new Color(0,0,0,1);
 		emissionColor =  new Color(0,0,0,1);
+		cout<<token<<" is final token"<<endl;
+
 		computeNormal();
 	}
 

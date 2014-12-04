@@ -48,7 +48,6 @@ Color* raytrace(Vertex* origin, Vertex* direction, vector<Triangle*> triangle_li
 		else  if(tri1->token == "D")
 			{ 
 				// it is a diffusive surface
-			cout<<"inter with d"<<endl;
 			for( int i = 0; i < lights; i++ )
 			{
 					Vertex* l_position = new Vertex(0,0,0);
@@ -85,6 +84,7 @@ Color* raytrace(Vertex* origin, Vertex* direction, vector<Triangle*> triangle_li
 					float nhit_norm = normalize(nhit);
                     nhit->x = nhit->x/nhit_norm;     nhit->y = nhit->y/nhit_norm;   nhit->z = nhit->z/nhit_norm;             // nhit = nhit/norm(nhit) 
 					Vertex* neg_nhit = new Vertex(-nhit->x,-nhit->y,-nhit->z);
+
                     output_color = output_color->add(tri1->surfaceColor->scaleColor(max(float(0),neg_nhit->dot(dr)))->mul(Color(1,1,1,1).scaleColor(T)));		
 			}
 			return output_color;

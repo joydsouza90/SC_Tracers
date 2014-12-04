@@ -402,7 +402,7 @@ end
 				Color* output_color_g;
 				Color* output_color_b;
 				dr->matMul(Rx);
-				Vertex* dr_origin;
+				Vertex* dr_origin = new Vertex();
 				dr_origin->x=dr->x*9-0.1;
 				dr_origin->y=dr->y*9+3;
 				dr_origin->z=dr->z*9;
