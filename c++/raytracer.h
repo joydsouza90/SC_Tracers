@@ -22,6 +22,7 @@ Color* raytrace(Vertex* origin, Vertex* direction, vector<Triangle*> triangle_li
 	for( int i = 0; i < triangle_list.size(); i++ )
 	{
 		tri1 = triangle_list[i];
+
 		tri1->intersection(origin, direction);
 		bool inter = tri1->inter;
 		float t = tri1->t;
@@ -95,12 +96,17 @@ Color* raytrace(Vertex* origin, Vertex* direction, vector<Triangle*> triangle_li
                 return new Color(0,0,0,1);
             else
 			{
+
+                cout<<"IGI"<<endl;
+
  					Vertex* p1 = tri1->v1 ;
                     Vertex* p2 = tri1->v2 ;
                     Vertex* p3 = tri1->v3;
 					p3=p3->sub(p2);// -= p2;
 					p2=p2->sub(p1);// -= p2;
                 Vertex* nhit = p3->cross(p2);
+                cout<<"IMO"<<endl;
+
                 float nhit_norm = normalize(nhit);
                 nhit->x = nhit->x/nhit_norm;    nhit->y = nhit->y/nhit_norm;  nhit->z = nhit->z/nhit_norm;             // nhit = nhit/norm(nhit)   
 
@@ -109,17 +115,23 @@ Color* raytrace(Vertex* origin, Vertex* direction, vector<Triangle*> triangle_li
 
                 float angle = nhit->dot(direction);
                 Vertex* inter_position = new Vertex(0,0,0);
+                cout<<"IMO"<<endl;
+
                 inter_position->x = origin->x + direction->x*t_min;  inter_position->y = origin->y + direction->y*t_min;  inter_position->z = origin->z + direction->z*t_min;
 
                 if ( angle < 0 )		// from outside to inside
 				{
+                cout<<"IGI"<<endl;
+
                     float theta1 = acosd(-angle);
                     Fresnel output = fresnel(n1,n2,theta1);
                     float reflection = output.reflection;
                     float theta2 = output.theta2;
+                cout<<"IGqI"<<endl;
                     float transmission = 1 - reflection;
                     Vertex* reflect_dir = direction->sub((nhit->scaleVertex(2))->scaleVertex(direction->dot(nhit))); 
                     float reflect_norm = normalize(reflect_dir);
+                cout<<"IGwI"<<endl;
                     reflect_dir->x = reflect_dir->x/reflect_norm;
                     reflect_dir->y = reflect_dir->y/reflect_norm;
                     reflect_dir->z = reflect_dir->z/reflect_norm;
@@ -128,6 +140,8 @@ Color* raytrace(Vertex* origin, Vertex* direction, vector<Triangle*> triangle_li
                     float refract_norm = normalize(refract_dir);
                     refract_dir->x = refract_dir->x/refract_norm;
                     refract_dir->y = refract_dir->y/refract_norm;
+                cout<<"IMO"<<endl;
+
                     refract_dir->z = refract_dir->z/refract_norm;
                     output_color = (raytrace(inter_position,reflect_dir,triangle_list,depth+1,count,lights,n2,light_list)->scaleColor(reflection))->add(
                                    raytrace(inter_position,refract_dir,triangle_list,depth+1,count,lights,n2,light_list)->scaleColor(transmission));
@@ -135,14 +149,18 @@ Color* raytrace(Vertex* origin, Vertex* direction, vector<Triangle*> triangle_li
                 }
                 else			// from inside to outside
 				{
+                cout<<"IGI 1"<<endl;
+
                     float theta1 = acosd(angle);
                     Fresnel output = fresnel(n2,n1,theta1);
                     float reflection = output.reflection;
                     float theta2 = output.theta2;
+                cout<<"IGI 2"<<endl;
                     float transmission = 1- reflection;
                     Vertex* reflect_dir = direction->sub(nhit->scaleVertex(2)->scaleVertex(direction->dot(nhit))); 
                     float reflect_norm = normalize(reflect_dir);
                     reflect_dir->x = reflect_dir->x/reflect_norm;
+                cout<<"IGI 3"<<endl;
                     reflect_dir->y = reflect_dir->y/reflect_norm;
                     reflect_dir->z = reflect_dir->z/reflect_norm;
                     if (transmission == 0)			//total internal reflection
@@ -154,6 +172,7 @@ Color* raytrace(Vertex* origin, Vertex* direction, vector<Triangle*> triangle_li
                     {
 						Vertex* refract_dir = (direction->add((nhit->scaleVertex(direction->dot(nhit)))->scaleVertex(n1/n2)))->sub(nhit->scaleVertex(direction->dot(nhit)));
                         float refract_norm = normalize(refract_dir);
+                cout<<"IGI 4"<<endl;
                         refract_dir->x = refract_dir->x/refract_norm;
                         refract_dir->y = refract_dir->y/refract_norm;
                         refract_dir->z = refract_dir->z/refract_norm;
@@ -161,6 +180,8 @@ Color* raytrace(Vertex* origin, Vertex* direction, vector<Triangle*> triangle_li
 						return output_color;
 					}
                 }
+                cout<<"IMO"<<endl;
+
 			}
         }
 	}
