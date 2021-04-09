@@ -1,9 +1,9 @@
 class Diamond
 {
 public:
-	vector<Triangle> tri;
+	vector<Triangle*> tri;
 
-	Diamond(vector<Triangle> v)
+	Diamond(vector<Triangle*> v)
 	{
 		tri=v;
 	}
